@@ -1,4 +1,6 @@
-# Spinning_Circles_Fourier_Visualization_Example
+# Spinning Circles Fourier Visualization 
+
+## Application : HORSE
 
 
 <img width="381" alt="1" src="https://user-images.githubusercontent.com/81428023/113789005-9942f200-973e-11eb-8add-68732a7cbc1f.png">
