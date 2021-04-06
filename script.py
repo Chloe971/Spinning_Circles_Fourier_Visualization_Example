@@ -12,6 +12,9 @@ from scipy.spatial import distance
 from scipy.interpolate import UnivariateSpline
 from copy import deepcopy
 
+
+#Our previously defined package
+import Package
 from Package import ImageObject
 from Package import FourierTransform
 from Package import ComplexCircles
