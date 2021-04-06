@@ -10,6 +10,8 @@ The aim of this project is to create a Python module that is able to draw an ani
 
 A particular interest on the parameters (degrees of approximation), speed of the videos would be of interest. Test and analysis on various images should be investigated. As a simple case, one would start with the constraint that the input image can be a black and white svg file. Then, adaptation to color cases and to general image format (like png, jpg, etc. ) could be added.
 
+At the end, so we have : 
+
 https://user-images.githubusercontent.com/81428023/113788969-82040480-973e-11eb-8ce6-e5383a7d0020.mp4
 
 
