@@ -1,29 +1,50 @@
-import matplotlib
-from matplotlib import animation, rc
-import matplotlib.pyplot as plt
-from matplotlib.pyplot import imshow
-from IPython.display import HTML
-import numpy as np
-from PIL import Image, ImageEnhance
-import requests
-from io import BytesIO
-from copy import deepcopy
-from scipy.spatial import distance
-from scipy.interpolate import UnivariateSpline
-from copy import deepcopy
-
+import Package
 from Package import ImageObject
 from Package import FourierTransform
 from Package import ComplexCircles
 
+from matplotlib import animation, rc
+import matplotlib.pyplot as plt
+from matplotlib.pyplot import imshow
+import numpy as np
+from scipy.spatial import distance
+from IPython.display import HTML
+import ffmpeg
+
+#Step 1 : Package ImageManipulation
 
 __file__ = "script.py"
 url = "http://thevirtualinstructor.com/images/continuouslinedrawinghorse.jpg"
 horse = Package.ImageObject(url)
-horse.show()
 
-# Animation
 
+#Step 2 : Package FourierTransform
+
+# Calculate Fourier approximations; initialize NC equal to the
+# number of circles the final animation will have to get an 
+# accurate view of how well the image will be approximated
+NC = 50
+xFT = FourierTransform(horse.x_spl, (0, horse.num_pixels), num_circles=NC)
+yFT = FourierTransform(horse.y_spl, (0, horse.num_pixels), num_circles=NC)
+
+# Plot the full approximation and the NC-degree 
+# approximation for t from 1-R
+R = 50
+plt.plot(xFT.t_vals[0:R], xFT.fxn_vals[0:R])
+plt.plot(xFT.t_vals[0:R], xFT.fourier_approximation[0:R], "--")
+plt.plot(xFT.t_vals[0:R], xFT.circles_approximation[0:R], ".-")
+
+plt.plot(yFT.t_vals[0:R], yFT.fxn_vals[0:R])
+plt.plot(yFT.t_vals[0:R], yFT.fourier_approximation[0:R], "--")
+plt.plot(yFT.t_vals[0:R], yFT.circles_approximation[0:R], ".-")
+
+# Visualize the approximation as 2D image
+plt.plot(xFT.fxn_vals, yFT.fxn_vals)
+plt.plot(xFT.fourier_approximation, yFT.fourier_approximation)
+plt.plot(xFT.fourier_approximation[0], yFT.fourier_approximation[0], 'o', color='red')
+
+
+#Step 3 : Visualization + Package PositionCalculate
 x_spl = horse.x_spl
 y_spl = horse.y_spl
 num_pixels = horse.num_pixels
@@ -35,26 +56,53 @@ anim_length = 20 # in seconds
 fps = 24 # frames per second
 num_frames = anim_length*fps
 interval = (1./fps)*1000
+
+# Ensure that the approximation has at least 2000
+# points to ensure smoothness
 dt = (int(2000. / num_frames) + 1)
-
-
-#Coefficients
+num_points =  dt* num_frames
 xFT = FourierTransform(x_spl, (0, num_pixels), num_points=num_points, N=num_circles)
 yFT = FourierTransform(y_spl, (0, num_pixels), num_points=num_points, N=num_circles)
-
 
 # Distance between circles and image
 X_circles_spacing = 200
 Y_circles_spacing = 300
 
+# Origin calculation: Offset the circles so they line up with 
+# the plotted image
 x_main_offset = xFT.origin_offset
 y_main_offset = yFT.origin_offset
 x_origin = (0, X_circles_spacing)
+#y_origin = (circles_spacing, y_main_offset)
+y_origin = (0, Y_circles_spacing)
+#y_origin = (0,0)
 
+# These calculations set transparency based on how close the 
+# approximation is to the original function (prevents the big 
+# swoops across the drawing to dominate the image)
+approx_coords = np.array(list(zip(xFT.fourier_approximation, yFT.fourier_approximation)))
+og_coords = np.array(list(zip(horse.x_tour, horse.y_tour)))
+approx_dist = distance.cdist(approx_coords, og_coords, 'euclidean')
+closest_points = approx_dist.min(1)
+def alpha_fxn(d):
+    # Takes distance between approx. and true value
+    # and returns transparency level
+    return(np.exp(-(1/10)*d))
+    #hist = plt.hist(closest_points)
+    heights = hist[0]
+    scaled_h = heights/heights[0]
+    breaks = hist[1]
+    for i, b in enumerate(breaks[1:]):
+        if d < b:
+            return(scaled_h[i])
+    
+cutoff = int(len(closest_points)*.95)
+alpha_vals = [ alpha_fxn(p) if i < cutoff else 0.33 for i, p in enumerate(closest_points) ]
 
 xCircles = ComplexCircles(xFT, num_circles=num_circles, origin=x_origin)
 yCircles = ComplexCircles(yFT, num_circles=num_circles, origin=y_origin)
 
+#------------------------------------------------------------
 # set up figure and styling
 fig = plt.figure()
 plt.axis([-400,75,-150,350])
@@ -72,6 +120,8 @@ plt.axis('off')
 circle_color = 'black'
 drawing_color = '#9c0200'
 
+
+#------------------------------------------------------------
 # Set up animation elements
 
 
@@ -219,23 +269,17 @@ def animate(i):
     return([])
 
 
- 
-
-
 ani = animation.FuncAnimation(fig, animate, frames=num_frames,
                               interval=interval, blit=True, init_func=init)
 
-HTML(ani.to_html5_video())
 
-# If you get the "KeyError: 'ffmpeg'" error (as you will if you run this on Binder),
-# then your system does not have the ffmpeg video library installed.
-# You can get around this by using an alternative image library.
-# COMMENT OUT the line "HTML(ani.to_html5_video())" above, and UNCOMMENT the following lines:
+rc('animation', html='html5')
+ani
 
-#from IPython.display import Image as DisplayImage
-#ani.save('./animation.gif', writer='imagemagick')
-#DisplayImage(url='./animation.gif')
-
+# Fun miscellaneous function to draw a single frame of the 
+# circles animation; understanding this step and getting the
+# phase/amplitude of the circles correct is 90% of the work
+# for understanding how the full animation works
 def draw_circles(FT, t, num_circles=200):
     
     period = FT.period
@@ -272,6 +316,4 @@ def draw_circles(FT, t, num_circles=200):
     plt.axis('equal')
     plt.show()
     return(fig)
-
 f = draw_circles(xFT, 1400, num_circles=20)
-
