@@ -7,20 +7,15 @@ The aim of this project is to create a Python module that is able to draw an ani
 
 A particular interest on the parameters (degrees of approximation), speed of the videos would be of interest. Test and analysis on various images should be investigated. As a simple case, one would start with the constraint that the input image can be a black and white svg file. Then, adaptation to color cases and to general image format (like png, jpg, etc. ) could be added.
 
-### Pictures : 
+### At the end we have : 
 
-<img width="316" alt="Horse" src="https://user-images.githubusercontent.com/81428023/113861236-46515500-97a7-11eb-9c8a-fef27bd495b3.png">
+<img width="433" alt="Cat" src="https://user-images.githubusercontent.com/81428023/113863298-c8427d80-97a9-11eb-9442-600fb6dea3e0.png">
+<img width="435" alt="Homer" src="https://user-images.githubusercontent.com/81428023/113863302-caa4d780-97a9-11eb-805a-8fdd78e93936.png">
+<img width="437" alt="Heart" src="https://user-images.githubusercontent.com/81428023/113863311-cd9fc800-97a9-11eb-9d0f-feccfeb35531.png">
+<img width="379" alt="Horse" src="https://user-images.githubusercontent.com/81428023/113863323-cf698b80-97a9-11eb-94a1-e5d882f37bcd.png">
+<img width="428" alt="Star" src="https://user-images.githubusercontent.com/81428023/113863326-d09ab880-97a9-11eb-8e90-64433f668d18.png">
+<img width="457" alt="face1" src="https://user-images.githubusercontent.com/81428023/113863331-d2647c00-97a9-11eb-82de-5216352957dc.png">
+<img width="460" alt="face2" src="https://user-images.githubusercontent.com/81428023/113863341-d4c6d600-97a9-11eb-9b86-cedbd7ebe832.png">
+<img width="412" alt="face3" src="https://user-images.githubusercontent.com/81428023/113863344-d5f80300-97a9-11eb-80a0-62aadacfb0a4.png">
 
-<img width="243" alt="cat" src="https://user-images.githubusercontent.com/81428023/113861263-4b160900-97a7-11eb-8b16-4b113a8f623f.png">
 
-<img width="426" alt="face3" src="https://user-images.githubusercontent.com/81428023/113861275-4fdabd00-97a7-11eb-892d-cfe4429fe01a.png">
-
-<img width="498" alt="Homer" src="https://user-images.githubusercontent.com/81428023/113861267-4c473600-97a7-11eb-91a3-c1b72098eb10.png">
-
-<img width="795" alt="Heart" src="https://user-images.githubusercontent.com/81428023/113861289-5406da80-97a7-11eb-9905-8cf714c8740a.png">
-
-<img width="597" alt="face2" src="https://user-images.githubusercontent.com/81428023/113861296-56693480-97a7-11eb-94f3-3c94d94c3049.png">
-
-<img width="694" alt="face1" src="https://user-images.githubusercontent.com/81428023/113861306-59642500-97a7-11eb-85f4-309677d846b1.png">
-
-<img width="701" alt="Star" src="https://user-images.githubusercontent.com/81428023/113861312-5bc67f00-97a7-11eb-9bda-9e13c407acc5.png">
