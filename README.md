@@ -12,7 +12,9 @@ A particular interest on the parameters (degrees of approximation), speed of the
 
 At the end, so we have : 
 
-https://user-images.githubusercontent.com/81428023/113788969-82040480-973e-11eb-8ce6-e5383a7d0020.mp4
+
+
+![Uploading demo_sine.gif…]()
 
 
 <img width="351" alt="9" src="https://user-images.githubusercontent.com/81428023/113788989-8c260300-973e-11eb-83b7-0449a1d45137.png">
