@@ -1,15 +1,18 @@
-import Package
-from Package import ImageObject
-from Package import FourierTransform
-from Package import ComplexCircles
-
 from matplotlib import animation, rc
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import imshow
 import numpy as np
 from scipy.spatial import distance
 from IPython.display import HTML
-import ffmpeg
+from copy import deepcopy
+from matplotlib.animation import FuncAnimation, PillowWriter
+
+
+#Our previously defined package
+import Package
+from Package import ImageObject
+from Package import FourierTransform
+from Package import ComplexCircles
 
 #Step 1 : Package ImageManipulation
 
@@ -274,7 +277,6 @@ ani = animation.FuncAnimation(fig, animate, frames=num_frames,
 
 
 rc('animation', html='html5')
-ani
 
 # Fun miscellaneous function to draw a single frame of the 
 # circles animation; understanding this step and getting the
