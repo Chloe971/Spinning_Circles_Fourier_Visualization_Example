@@ -11,3 +11,4 @@ build/
 /venv
 /vscode_wp.code-workspace
 /.ipynb_checkpoints
+.DS_Store
